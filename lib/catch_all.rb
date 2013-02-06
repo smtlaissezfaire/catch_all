@@ -11,11 +11,11 @@ module ActionMailer
       def enable(*to_addresses)
         to_addresses = to_addresses.flatten
 
-        ActionMailer::Base.class_eval do
-          if instance_methods.include?(:mail_aliased_from_action_mailer_staging)
-            ActionMailerStaging.disable
-          end
+        if enabled?
+          disable
+        end
 
+        ActionMailer::Base.class_eval do
           alias_method :mail_aliased_from_action_mailer_staging, :mail
 
           define_method :mail do |*args, &block|
