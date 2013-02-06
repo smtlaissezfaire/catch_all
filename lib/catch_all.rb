@@ -9,7 +9,11 @@ module ActionMailer
       end
 
       def enable(*to_addresses)
-        to_addresses = to_addresses.flatten
+        to_addresses = to_addresses.flatten.compact
+
+        if to_addresses.length == 0
+          Kernel.warn("No email addresses passed to ActionMailer::CatchAll!")
+        end
 
         if enabled?
           disable

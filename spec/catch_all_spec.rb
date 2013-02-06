@@ -16,6 +16,10 @@ class Notifier < ActionMailer::Base
   def notify_no_address
     mail()
   end
+
+  def notify_with_empty_to
+    mail(:to => [])
+  end
 end
 
 describe ActionMailer::CatchAll do
@@ -92,5 +96,26 @@ describe ActionMailer::CatchAll do
 
     ActionMailer::CatchAll.disable
     ActionMailer::CatchAll.should_not be_enabled
+  end
+
+  it "should warn and use [] if passed an empty list" do
+    Kernel.should_receive(:warn).with("No email addresses passed to ActionMailer::CatchAll!")
+    ActionMailer::CatchAll.enable([])
+    mailer = Notifier.notify
+    mailer.to.should == []
+  end
+
+  it "should warn and use [] if passed a nil" do
+    Kernel.should_receive(:warn).with("No email addresses passed to ActionMailer::CatchAll!")
+    ActionMailer::CatchAll.enable(nil)
+    mailer = Notifier.notify
+    mailer.to.should == []
+  end
+
+  it "should warn and use [] if passed nothing" do
+    Kernel.should_receive(:warn).with("No email addresses passed to ActionMailer::CatchAll!")
+    ActionMailer::CatchAll.enable()
+    mailer = Notifier.notify
+    mailer.to.should == []
   end
 end
