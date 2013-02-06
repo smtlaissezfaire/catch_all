@@ -85,4 +85,12 @@ describe ActionMailer::CatchAll do
     mailer = Notifier.notify
     mailer['X-Action-Mailer-Staging-Original-Email-To'].value.should == "[\"scott@learnup.me\"]"
   end
+
+  it "should report as enabled when enabled" do
+    ActionMailer::CatchAll.enable("scott@railsnewbie.com")
+    ActionMailer::CatchAll.should be_enabled
+
+    ActionMailer::CatchAll.disable
+    ActionMailer::CatchAll.should_not be_enabled
+  end
 end

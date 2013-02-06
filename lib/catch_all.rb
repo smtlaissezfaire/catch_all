@@ -3,6 +3,10 @@ require 'action_mailer'
 module ActionMailer
   module CatchAll
     class << self
+      def enabled?
+        ActionMailer::Base.instance_methods.include?(:mail_aliased_from_action_mailer_staging)
+      end
+
       def enable(*to_addresses)
         to_addresses = to_addresses.flatten
 
@@ -35,8 +39,8 @@ module ActionMailer
       end
 
       def disable
-        ActionMailer::Base.class_eval do
-          if instance_methods.include?(:mail_aliased_from_action_mailer_staging)
+        if enabled?
+          ActionMailer::Base.class_eval do
             alias_method :mail, :mail_aliased_from_action_mailer_staging
             remove_method :mail_aliased_from_action_mailer_staging
           end
