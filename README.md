@@ -8,8 +8,6 @@ ActionMailer::CatchAll is a simple module to define a white-list of email addres
 
     gem 'catch_all'
 
-    $ bundle install
-
   config/initializers/email_catch_all.rb:
 
     if Rails.env.staging?
