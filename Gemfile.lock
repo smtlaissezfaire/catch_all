@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    catch_all (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,4 +68,5 @@ PLATFORMS
 DEPENDENCIES
   ZenTest (~> 4.4.2)
   actionmailer
+  catch_all!
   rspec (>= 2.3.0)

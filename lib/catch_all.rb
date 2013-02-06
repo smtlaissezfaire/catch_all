@@ -1,4 +1,5 @@
 require 'action_mailer'
+require File.dirname(__FILE__) + "/catch_all/version"
 
 module ActionMailer
   module CatchAll
