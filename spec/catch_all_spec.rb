@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../lib/catch_all'
+require 'spec_helper'
 
 class Notifier < ActionMailer::Base
   def notify

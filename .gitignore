@@ -1,3 +1,4 @@
 *.gem
 .DS_Store
 .tmproj
+.byebug_history
