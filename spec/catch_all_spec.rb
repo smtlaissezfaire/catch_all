@@ -118,4 +118,16 @@ describe ActionMailer::CatchAll do
     mailer = Notifier.notify
     mailer.to.should == []
   end
+
+  it "should work with a whitelist regex" do
+    ActionMailer::CatchAll.enable(fallback: 'fallback@example.com', whitelist: [/\@learnup.me$/])
+    mailer = Notifier.notify
+    mailer.to.should == ["scott@learnup.me"]
+  end
+
+  it "should work with a fallback" do
+    ActionMailer::CatchAll.enable(fallback: 'fallback@example.com')
+    mailer = Notifier.notify
+    mailer.to.should == ["fallback@example.com"]
+  end
 end

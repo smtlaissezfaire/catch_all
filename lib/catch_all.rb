@@ -8,10 +8,18 @@ module ActionMailer
         ActionMailer::Base.instance_methods.include?(:mail_aliased_from_action_mailer_staging)
       end
 
-      def enable(*to_addresses)
-        to_addresses = to_addresses.flatten.compact
+      def enable(*options)
+        if options.length == 1 && options[0].is_a?(Hash)
+          hash = options[0]
 
-        if to_addresses.length == 0
+          whitelist_email_addresses = Array(hash[:whitelist]).flatten.compact
+          fallback_email_addresses = Array(hash[:fallback]).flatten.compact
+        else
+          whitelist_email_addresses = options.flatten.compact
+          fallback_email_addresses = whitelist_email_addresses
+        end
+
+        if fallback_email_addresses.length == 0
           Kernel.warn("No email addresses passed to ActionMailer::CatchAll!")
         end
 
@@ -31,11 +39,21 @@ module ActionMailer
 
             # save the original to header
             mailer['X-Action-Mailer-Staging-Original-Email-To'] = to_values.inspect
-            selected_to_addresses = to_values.select { |to| to_addresses.include?(to) }
+
+            selected_to_addresses = to_values.select do |to|
+              whitelist_email_addresses.any? do |email|
+                if email.is_a?(Regexp)
+                  email =~ to
+                else
+                  email == to
+                end
+              end
+            end
+
             if selected_to_addresses.any?
               mailer[:to] = selected_to_addresses
             else
-              mailer[:to] = to_addresses
+              mailer[:to] = fallback_email_addresses
             end
 
             mailer
