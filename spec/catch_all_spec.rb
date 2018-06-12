@@ -2,23 +2,23 @@ require File.dirname(__FILE__) + '/../lib/catch_all'
 
 class Notifier < ActionMailer::Base
   def notify
-    mail(:to => "scott@learnup.me")
+    mail(:to => "scott@learnup.me", body: "body")
   end
 
   def notify_multiple
-    mail(:to => ["scott@learnup.me", "kenny@learnup.me"])
+    mail(:to => ["scott@learnup.me", "kenny@learnup.me"], body: "body")
   end
 
   def notify_with_name
-    mail(:to => "Scott Taylor <scott@learnup.me>")
+    mail(:to => "Scott Taylor <scott@learnup.me>", body: "body")
   end
 
   def notify_no_address
-    mail()
+    mail(body: "body")
   end
 
   def notify_with_empty_to
-    mail(:to => [])
+    mail(:to => [], body: "body")
   end
 end
 
