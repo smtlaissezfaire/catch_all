@@ -37,6 +37,8 @@ module ActionMailer
               field.value
             end
 
+            to_values.flatten!
+
             # save the original to header
             mailer['X-Action-Mailer-Staging-Original-Email-To'] = to_values.inspect
 

@@ -130,4 +130,10 @@ describe ActionMailer::CatchAll do
     mailer = Notifier.notify
     mailer.to.should == ["fallback@example.com"]
   end
+
+  it "should work with a whitelist and a list" do
+    ActionMailer::CatchAll.enable(whitelist: [/\@learnup.me$/], fallback: "example@example.com")
+    mailer = Notifier.notify_multiple
+    mailer.to.should == ["scott@learnup.me", "kenny@learnup.me"]
+  end
 end
