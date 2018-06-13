@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    catch_all (0.0.2)
+    catch_all (0.0.3)
 
 GEM
   remote: https://rubygems.org/
